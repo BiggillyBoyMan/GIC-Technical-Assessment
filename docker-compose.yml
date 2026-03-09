@@ -10,27 +10,48 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./backend/db/migrations:/docker-entrypoint-initdb.d
+      - ./backend/db:/docker-entrypoint-initdb.d
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - cafe_network
 
   backend:
     build:
-      context: ./backend        # ← tell Docker to look inside backend/
-      dockerfile: Dockerfile
+      context: ./backend
+      dockerfile: ./Dockerfile
     container_name: cafe_backend
     depends_on:
       postgres:
         condition: service_healthy
     env_file:
-      - ./backend/.env          # ← point to backend's .env
+      - ./backend/.env
     ports:
       - "${PORT}:${PORT}"
     volumes:
       - ./backend/uploads:/app/uploads
+    networks:
+      - cafe_network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: cafe_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - cafe_network             # ← same network as postgres
+
+networks:
+  cafe_network:
+    driver: bridge
 
 volumes:
   postgres_data:
