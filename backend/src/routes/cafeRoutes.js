@@ -7,4 +7,6 @@ const cafeController = container.resolve('cafeController')
 
 router.get('/', cafeController.getAll)
 
+router.post('/', cafeController.createCafe)
+
 module.exports = router

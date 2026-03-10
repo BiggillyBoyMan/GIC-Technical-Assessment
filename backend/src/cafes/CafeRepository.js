@@ -29,6 +29,23 @@ class CafeRepository {
 
             return result.rows
     }
+
+    async create(command) {
+        const { name, description, logo, location } = command
+
+        const result = await this.db.query(`
+            INSERT INTO cafe (cafe_id, name, description, logo, location)
+            VALUES (uuid_generate_v4(), $1, $2, $3, $4)
+            RETURNING 
+                cafe_id as ID,
+                name,
+                description,
+                logo,
+                location
+            `, [name, description, logo || null, location])
+
+        return result.rows[0]
+    }
 }
 
 module.exports = CafeRepository
