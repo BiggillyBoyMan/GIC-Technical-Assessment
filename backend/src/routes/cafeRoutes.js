@@ -5,7 +5,7 @@ const container = require('../config/container')
 const CafeController = require('../cafes/CafeController')
 const cafeController = container.resolve('cafeController')
 
-router.get('/get', cafeController.getAll)
+router.get('/', cafeController.getAll)
 
 router.post('/create', cafeController.createCafe)
 
