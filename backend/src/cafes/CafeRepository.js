@@ -46,6 +46,36 @@ class CafeRepository {
 
         return result.rows[0]
     }
+
+    async update(command) { 
+        const { id, name, description, logo, location } = command
+
+        const result = await this.db.query(`
+            UPDATE cafe
+            SET 
+                name = $1,
+                description = $2,
+                logo = $3,
+                location = $4
+                updated_at = NOW()
+            WHERE cafe_id = $5
+            RETURNING
+                cafe_id as ID,
+                name,
+                description,
+                logo
+                location
+            `, [name, description, logo || null, location, id])
+        
+        if(result.rows.length === 0) {
+            const error = new Error('Cafe not found')
+            error.status = 404
+            throw error
+        }
+
+        return result.rows[0]
+    }
+
 }
 
 module.exports = CafeRepository

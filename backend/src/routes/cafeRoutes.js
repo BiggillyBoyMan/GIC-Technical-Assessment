@@ -5,8 +5,10 @@ const container = require('../config/container')
 const CafeController = require('../cafes/CafeController')
 const cafeController = container.resolve('cafeController')
 
-router.get('/', cafeController.getAll)
+router.get('/get', cafeController.getAll)
 
-router.post('/', cafeController.createCafe)
+router.post('/create', cafeController.createCafe)
+
+router.put('/update/:id', cafeController.updateCafe)
 
 module.exports = router

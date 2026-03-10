@@ -14,6 +14,10 @@ const GetCafesQuery = require('../cafes/queries/GetCafesQuery')
 const CreateCafeCommand = require('../cafes/commands/CreateCafeCommand')
 const CreateCafeHandler = require('../cafes/handlers/CreateCafeHandler')
 
+//Put /Cafes
+const UpdateCafeCommand = require('../cafes/commands/UpdateCafeCommand')
+const UpdateCafeHandler = require('../cafes/handlers/UpdateCafeHandler')
+
 
 const container = createContainer()
 
@@ -24,12 +28,15 @@ container.register({
   cafeController: asClass(CafeController).singleton(),
   getCafesHandler: asClass(GetCafesHandler).singleton(),
   createCafeHandler: asClass(CreateCafeHandler).singleton(),
+  updateCafeHandler: asClass(UpdateCafeHandler).singleton(),
 })
 
 const mediator = container.resolve('mediator')
 //get cafes API
 mediator.register(GetCafesQuery.name, container.resolve('getCafesHandler'))
-//create cafes API
+//create cafe API
 mediator.register(CreateCafeCommand.name, container.resolve('createCafeHandler'))
+//update cafe API
+mediator.register(UpdateCafeCommand.name, container.resolve('updateCafeHandler'))
 
 module.exports = container
