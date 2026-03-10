@@ -76,6 +76,19 @@ class CafeRepository {
         return result.rows[0]
     }
 
+    async delete(id) {
+        const result = await this.db.query(`
+            DELETE FROM cafe
+            WHERE cafe_id = $1
+            RETURNING cafe_id
+            `, [ id ])
+        
+        if (result.rows.length === 0) {
+            const error = new Error('Cafe not found')
+            error.status = 404
+            throw error
+        }
+    }
 }
 
 module.exports = CafeRepository
