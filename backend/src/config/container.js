@@ -33,6 +33,10 @@ const GetEmployeesHandler = require('../employees/handlers/GetEmployeesHandler')
 const CreateEmployeeCommand = require('../employees/commands/CreateEmployeeCommand')
 const CreateEmployeeHandler = require('../employees/handlers/CreateEmployeeHandler')
 
+//Put /employee
+const UpdateEmployeeCommand = require('../employees/commands/UpdateEmployeeCommand')
+const UpdateEmployeeHandler = require('../employees/handlers/UpdateEmployeeHandler')
+
 const container = createContainer()
 
 container.register({
@@ -48,6 +52,7 @@ container.register({
   employeeRepository: asClass(EmployeeRepository).singleton(),
   getEmployeesHandler: asClass(GetEmployeesHandler).singleton(),
   createEmployeeHandler: asClass(CreateEmployeeHandler).singleton(),
+  updateEmployeeHandler: asClass(UpdateEmployeeHandler).singleton(),
 })
 
 const mediator = container.resolve('mediator')
@@ -63,5 +68,7 @@ mediator.register(DeleteCafeCommand.name, container.resolve('deleteCafeHandler')
 mediator.register(GetEmployeesQuery.name, container.resolve('getEmployeesHandler'))
 //post employee API
 mediator.register(CreateEmployeeCommand.name, container.resolve('createEmployeeHandler'))
+//put employee API
+mediator.register(UpdateEmployeeCommand.name, container.resolve('updateEmployeeHandler'))
 
 module.exports = container

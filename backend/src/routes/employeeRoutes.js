@@ -9,4 +9,6 @@ router.get('/get', employeeController.getAll)
 
 router.post('/create', employeeController.create)
 
+router.put('/:id', employeeController.update)
+
 module.exports = router
