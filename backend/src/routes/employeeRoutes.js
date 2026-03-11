@@ -7,4 +7,6 @@ const employeeController = container.resolve('employeeController')
 
 router.get('/get', employeeController.getAll)
 
+router.post('/create', employeeController.create)
+
 module.exports = router
