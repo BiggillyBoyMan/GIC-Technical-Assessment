@@ -25,9 +25,21 @@ const DeleteCafeHandler = require('../cafes/handlers/DeleteCafeHandler')
 const EmployeeController = require('../employees/EmployeeController')
 const EmployeeRepository = require('../employees/EmployeeRepository')
 
-//Get Employees
+//Get /Employees
 const GetEmployeesQuery = require('../employees/queries/GetEmployeesQuery')
 const GetEmployeesHandler = require('../employees/handlers/GetEmployeesHandler')
+
+//Post /employee
+const CreateEmployeeCommand = require('../employees/commands/CreateEmployeeCommand')
+const CreateEmployeeHandler = require('../employees/handlers/CreateEmployeeHandler')
+
+//Put /employee
+const UpdateEmployeeCommand = require('../employees/commands/UpdateEmployeeCommand')
+const UpdateEmployeeHandler = require('../employees/handlers/UpdateEmployeeHandler')
+
+//delete /employee
+const DeleteEmployeeCommand = require('../employees/commands/DeleteEmployeeCommand')
+const DeleteEmployeeHandler = require('../employees/handlers/DeleteEmployeeHandler')
 
 const container = createContainer()
 
@@ -43,6 +55,9 @@ container.register({
   employeeController: asClass(EmployeeController).singleton(),
   employeeRepository: asClass(EmployeeRepository).singleton(),
   getEmployeesHandler: asClass(GetEmployeesHandler).singleton(),
+  createEmployeeHandler: asClass(CreateEmployeeHandler).singleton(),
+  updateEmployeeHandler: asClass(UpdateEmployeeHandler).singleton(),
+  deleteEmployeeHandler: asClass(DeleteEmployeeHandler).singleton(),
 })
 
 const mediator = container.resolve('mediator')
@@ -56,5 +71,11 @@ mediator.register(UpdateCafeCommand.name, container.resolve('updateCafeHandler')
 mediator.register(DeleteCafeCommand.name, container.resolve('deleteCafeHandler'))
 //get employees API
 mediator.register(GetEmployeesQuery.name, container.resolve('getEmployeesHandler'))
+//post employee API
+mediator.register(CreateEmployeeCommand.name, container.resolve('createEmployeeHandler'))
+//put employee API
+mediator.register(UpdateEmployeeCommand.name, container.resolve('updateEmployeeHandler'))
+//delete employee API
+mediator.register(DeleteEmployeeCommand.name, container.resolve('deleteEmployeeHandler'))
 
 module.exports = container

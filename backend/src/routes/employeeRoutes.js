@@ -7,4 +7,10 @@ const employeeController = container.resolve('employeeController')
 
 router.get('/get', employeeController.getAll)
 
+router.post('/create', employeeController.create)
+
+router.put('/:id', employeeController.update)
+
+router.delete('/:id', employeeController.delete)
+
 module.exports = router
