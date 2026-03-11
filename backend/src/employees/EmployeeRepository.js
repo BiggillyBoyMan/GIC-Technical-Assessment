@@ -178,6 +178,19 @@ class EmployeeRepository {
             client.release()
         }
     }
+
+    async delete(id) {
+        const result = await this.db.query(`
+            DELETE FROM employee
+            WHERE employee_id = $1
+            RETURNING employee_id
+            `, [id])
+        if(result.rows.length === 0) {
+            const error = new Error('Employee not found')
+            error.status = 404
+            throw error
+        }
+    }
 }
 
 module.exports = EmployeeRepository

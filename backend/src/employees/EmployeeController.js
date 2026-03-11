@@ -1,6 +1,7 @@
 const GetEmployeesQuery = require("../employees/queries/GetEmployeesQuery")
 const CreateEmployeesCommand = require("./commands/CreateEmployeeCommand")
 const UpdateEmployeeCommand = require('../employees/commands/UpdateEmployeeCommand')
+const DeleteEmployeeCommand = require('../employees/commands/DeleteEmployeeCommand')
 
 class EmployeeController {
     constructor({ mediator }) {
@@ -8,6 +9,7 @@ class EmployeeController {
         this.getAll = this.getAll.bind(this)
         this.create = this.create.bind(this)
         this.update = this.update.bind(this)
+        this.delete = this.delete.bind(this)
     }
 
     async getAll(req,res,next) {
@@ -44,6 +46,17 @@ class EmployeeController {
             const result = await this.mediator.send(command)
             res.json(result)
         } catch (err) {
+            next(err)
+        }
+    }
+
+    async delete(req, res, next) {
+        try{
+            const { id } = req.params
+            const command = new DeleteEmployeeCommand(id)
+            const result = await this.mediator.send(command)
+            res.json(result)
+        } catch (err){
             next(err)
         }
     }
