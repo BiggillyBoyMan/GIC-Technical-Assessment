@@ -1,6 +1,7 @@
 const GetCafesQuery = require('./queries/GetCafesQuery')
 const CreateCafeCommand = require('./commands/CreateCafeCommand')
 const UpdateCafeCommand = require('./commands/UpdateCafeCommand')
+const DeleteCafeCommand = require('./commands/DeleteCafeCommand')
 
 class CafeController {
     constructor({ mediator }) {
@@ -11,6 +12,8 @@ class CafeController {
         this.createCafe = this.createCafe.bind(this)
 
         this.updateCafe = this.updateCafe.bind(this)
+
+        this.deleteCafe = this.deleteCafe.bind(this)
     }
 
     async getAll(req, res, next) {
@@ -43,6 +46,21 @@ class CafeController {
             const result = await this.mediator.send(command)
             res.json(result)
         } catch (err) {
+            next(err)
+        }
+    }
+
+    async deleteCafe(req, res, next) {
+        try {
+            console.log('params:', req.params)
+            console.log('url:', req.url)
+            const { id } = req.params
+            console.log('deleting id: ', id)
+            const command = new DeleteCafeCommand(id)
+            const result = await this.mediator.send(command)
+            res.json(result)
+        } catch (err) {
+            console.log('error:', err.message)
             next(err)
         }
     }
