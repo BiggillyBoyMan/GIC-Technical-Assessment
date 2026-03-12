@@ -5,9 +5,9 @@ const container = require('../config/container')
 const EmployeeController = require('../employees/EmployeeController')
 const employeeController = container.resolve('employeeController')
 
-router.get('/get', employeeController.getAll)
+router.get('/', employeeController.getAll)
 
-router.post('/create', employeeController.create)
+router.post('/', employeeController.create)
 
 router.put('/:id', employeeController.update)
 

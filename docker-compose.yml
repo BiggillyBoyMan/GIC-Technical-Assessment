@@ -49,6 +49,21 @@ services:
     networks:
       - cafe_network             # ← same network as postgres
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile
+    container_name: cafe_frontend
+    ports:
+      - "5173:5173"
+    networks:
+      - cafe_network
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./frontend/src
+          target: /app/src
+
 networks:
   cafe_network:
     driver: bridge
