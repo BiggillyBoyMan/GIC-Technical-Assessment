@@ -7,10 +7,10 @@ const cafeController = container.resolve('cafeController')
 
 router.get('/', cafeController.getAll)
 
-router.post('/create', cafeController.createCafe)
+router.post('/', cafeController.createCafe)
 
-router.put('/update/:id', cafeController.updateCafe)
+router.put('/:id', cafeController.updateCafe)
 
-router.delete('/delete/:id', cafeController.deleteCafe)
+router.delete('/:id', cafeController.deleteCafe)
 
 module.exports = router

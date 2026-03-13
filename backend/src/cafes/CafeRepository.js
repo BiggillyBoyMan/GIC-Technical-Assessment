@@ -56,14 +56,14 @@ class CafeRepository {
                 name = $1,
                 description = $2,
                 logo = $3,
-                location = $4
+                location = $4,
                 updated_at = NOW()
             WHERE cafe_id = $5
             RETURNING
                 cafe_id as ID,
                 name,
                 description,
-                logo
+                logo,
                 location
             `, [name, description, logo || null, location, id])
         
