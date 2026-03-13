@@ -1,4 +1,6 @@
+import AppHeader from '../components/AppHeader'
+
 function EmployeesPage() {
-  return <div>Employees Page</div>
+  return <AppHeader/>
 }
 export default EmployeesPage

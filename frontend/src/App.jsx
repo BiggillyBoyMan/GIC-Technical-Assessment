@@ -10,8 +10,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/cafes"/>} />
         <Route path="/cafes" element={<CafesPage/>} />
-        <Route path="/cafes/add" element={<AddEditCafePage/>} />
-        <Route path="/cafes/edit/:id" element={<AddEditCafePage/>} />
+        <Route path="/cafes/add" element={<CafesPage/>} />
+        <Route path="/cafes/edit/:id" element={<CafePage/>} />
         <Route path="/employees" element={<EmployeesPage/>}/>
         <Route path="/employees/add" element={<AddEditEmployeePage/>}/>
         <Route path="/employees/edit/:id" element={<AddEditEmployeePage/>}/>

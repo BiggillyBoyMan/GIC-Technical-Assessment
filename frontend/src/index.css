@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.ag-theme-alpine .ag-header-cell-label {
+  justify-content: center;
+}
