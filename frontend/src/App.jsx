@@ -11,7 +11,7 @@ function App() {
         <Route path="/" element={<Navigate to="/cafes"/>} />
         <Route path="/cafes" element={<CafesPage/>} />
         <Route path="/cafes/add" element={<CafesPage/>} />
-        <Route path="/cafes/edit/:id" element={<CafePage/>} />
+        <Route path="/cafes/edit/:id" element={<CafesPage/>} />
         <Route path="/employees" element={<EmployeesPage/>}/>
         <Route path="/employees/add" element={<AddEditEmployeePage/>}/>
         <Route path="/employees/edit/:id" element={<AddEditEmployeePage/>}/>

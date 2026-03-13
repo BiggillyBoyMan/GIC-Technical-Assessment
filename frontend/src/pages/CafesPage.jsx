@@ -6,6 +6,7 @@ import { PlusOutlined } from '@ant-design/icons'
 import { getCafes, deleteCafe } from '../api/cafesApi'
 import CafesTable from '../components/CafesTables'
 import AppHeader from '../components/AppHeader'
+import CafeFormModal from '../components/CafeFormModal'
 
 const { Title } = Typography
 const { Content, Footer } = Layout; // Destructure layout components
@@ -17,8 +18,9 @@ function CafesPage() {
     const isAdd = useMatch('/cafes/add')
     const isEdit = useMatch('/cafes/edit/:id')
     const editId = isEdit?.params?.id
-    const handleCloseModal = () => navigate('/cafes')
-
+    const handleCloseModal = () => {
+        navigate('/cafes')
+    }
     const { data: allCafes = [] } = useQuery({
         queryKey: ['cafes'],
         queryFn: () => getCafes()
@@ -35,10 +37,9 @@ function CafesPage() {
         ...locations.map(loc=> ({ value: loc, label: loc}))
     ]
 
-    const [selectedCafe, setSelectedCafe] = useState(null)
+    const selectedCafe = editId ? allCafes.find(c => c.id === editId) : null
 
     const handleEdit = (cafe) => {
-        setSelectedCafe(cafe)
         navigate(`/cafes/edit/${cafe.id}`)
     }
 
@@ -98,6 +99,11 @@ function CafesPage() {
                         onDelete={handleDelete}
                     />
                 </div>
+                <CafeFormModal
+                    open={!!(isAdd || isEdit)}
+                    initialData={selectedCafe}        // null for add, uuid for edit
+                    onClose={handleCloseModal}
+                />
             </Content>
 
             {/* 3. Footer */}
