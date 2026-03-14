@@ -21,7 +21,12 @@ class CafeController {
             const { location } = req.query
             const query = new GetCafesQuery(location)
             const result = await this.mediator.send(query)
-            res.json(result)
+            const BASE_URL = `http://localhost:${process.env.PORT}`
+            const withLogos = result.map(cafe => ({
+                ...cafe,
+                logo: cafe.logo ? `${BASE_URL}${cafe.logo}` : null
+            }))
+            res.json(withLogos)
         } catch (err) {
             next(err)
         }
@@ -29,7 +34,8 @@ class CafeController {
 
     async createCafe(req, res, next) {
         try {
-            const { name, description, logo, location } = req.body
+            const { name, description, location } = req.body
+            const logo = req.file ? `/uploads/${req.file.filename}` : null
             const body = new CreateCafeCommand(name, description, logo, location)
             const result = await this.mediator.send(body)
             res.status(201).json(result)
@@ -41,7 +47,13 @@ class CafeController {
     async updateCafe(req, res, next) {
         try {
             const { id } = req.params
-            const { name, description, logo, location } = req.body
+            const { name, description, location } = req.body
+            let logo = null
+            if (req.file) {
+                logo = `/uploads/${req.file.filename}`
+            } else if (req.body.logo) {
+                try { logo = new URL(req.body.logo).pathname } catch { logo = req.body.logo }
+            }
             const command = new UpdateCafeCommand(id, name, description, logo, location)
             const result = await this.mediator.send(command)
             res.json(result)
