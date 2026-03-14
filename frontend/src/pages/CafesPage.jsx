@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useMatch, useNavigate } from 'react-router-dom'
-import { Button, Typography, Modal, Spin, Select, Layout } from 'antd' // Added Layout
+import { Button, Typography, Modal, Spin, Select, Layout } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { getCafes, deleteCafe } from '../api/cafesApi'
 import CafesTable from '../components/CafesTables'
@@ -9,7 +9,7 @@ import AppHeader from '../components/AppHeader'
 import CafeFormModal from '../components/CafeFormModal'
 
 const { Title } = Typography
-const { Content, Footer } = Layout; // Destructure layout components
+const { Content, Footer } = Layout; 
 
 function CafesPage() {
     const [location, setLocation] = useState('')
@@ -64,10 +64,10 @@ function CafesPage() {
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
-            {/* 1. Header */}
+            {/* Header */}
             <AppHeader />
 
-            {/* 2. Content */}
+            {/* Content */}
             <Content style={{ padding: '0 40px', marginTop: 24 }}>
                 <div style={{ background: '#fff', padding: 24, borderRadius: 8, minHeight: 300 }}>
                     
@@ -106,9 +106,9 @@ function CafesPage() {
                 />
             </Content>
 
-            {/* 3. Footer */}
+            {/*  Footer */}
             <Footer style={{ textAlign: 'center' }}>
-                Cafe Management {new Date().getFullYear()} Created by Lucas Low
+                Cafe Management 2026 Created by Lucas Low
             </Footer>
         </Layout>
     )
