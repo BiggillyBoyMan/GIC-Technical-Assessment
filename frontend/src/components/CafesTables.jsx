@@ -5,6 +5,7 @@ import { Avatar, Button, Space, Pagination, Tooltip, theme } from 'antd'
 import { EditOutlined, DeleteOutlined, ShopOutlined } from '@ant-design/icons'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-alpine.css'
+import { useNavigate } from 'react-router-dom'
 
 ModuleRegistry.registerModules([AllCommunityModule])
 
@@ -49,6 +50,7 @@ function CafesTable({ cafes, onEdit, onDelete }) {
   const containerRef = useRef(null)
   const [pageSize, setPageSize] = useState(8)
   const [currentPage, setCurrentPage] = useState(1)
+  const navigate = useNavigate()
 
   // Recalculate pageSize whenever the window resizes
   useEffect(() => {
@@ -71,7 +73,20 @@ function CafesTable({ cafes, onEdit, onDelete }) {
     },
     { field: 'name',        headerName: 'Name',        flex: 1 },
     { field: 'description', headerName: 'Description', flex: 2 },
-    { field: 'employees',   headerName: 'Employees',   flex: 1 },
+    { field: 'employees',   headerName: 'Employees',   flex: 1,
+        cellRenderer: (params) => (
+            <span
+                onClick={() => navigate(`/employees?cafe=${params.data.id}`)}
+                style={{
+                    color: '#4096FF',
+                    cursor: 'pointer',
+                    textDecoration: 'underline'
+                }}
+            >
+            {params.value}
+            </span>
+        )
+    },
     { field: 'location',    headerName: 'Location',    flex: 1 },
     {
       headerName: 'Actions',

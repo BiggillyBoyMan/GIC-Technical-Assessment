@@ -1,8 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import CafesPage from './pages/CafesPage'
 import EmployeesPage from './pages/EmployeesPage'
-import AddEditCafePage from './pages/AddEditCafePage'
-import AddEditEmployeePage from './pages/AddEditEmployeePage'
+
 
 function App() {
   return (
