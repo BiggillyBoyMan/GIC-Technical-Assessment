@@ -7,18 +7,21 @@ import { PlusOutlined } from '@ant-design/icons'
 import EmployeesTable from '../components/EmployeesTable'
 import EmployeeFormModal from '../components/EmployeeFormModal'
 import {getEmployees, createEmployee, updateEmployee, deleteEmployee} from '../api/employeesApi'
+import { useSearchParams } from 'react-router-dom'
 
 
 const { Title } = Typography
 const { Content, Footer } = Layout; // Destructure layout components
 
 function EmployeesPage() {
-    const [cafe, setCafe] = useState('')
     const navigate = useNavigate()
     const queryClient = useQueryClient()
     const isAdd = useMatch('/employees/add')
     const isEdit = useMatch('/employees/edit/:id')
     const editId = isEdit?.params?.id
+    const [searchParams] = useSearchParams()
+    const cafeFromUrl = searchParams.get('cafe')
+    const [cafe, setCafe] = useState(cafeFromUrl || '')
 
     const handleCloseModal = () => {
         navigate('/employees')
