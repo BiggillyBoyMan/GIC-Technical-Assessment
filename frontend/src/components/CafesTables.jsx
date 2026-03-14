@@ -2,10 +2,11 @@ import { useState, useEffect, useRef } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community'
 import { Avatar, Button, Space, Pagination, Tooltip, theme } from 'antd'
-import { EditOutlined, DeleteOutlined, ShopOutlined } from '@ant-design/icons'
+import { EditOutlined, DeleteOutlined, ShopOutlined, EyeOutlined } from '@ant-design/icons'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-alpine.css'
 import { useNavigate } from 'react-router-dom'
+import ViewModal from './ViewModal'
 
 ModuleRegistry.registerModules([AllCommunityModule])
 
@@ -21,9 +22,18 @@ function LogoCell({ value, data }) {
     : <Avatar icon={<ShopOutlined />} size={32} shape="square" style={{ background: '#c8956c', borderRadius: 4 }}>{data?.name?.[0]?.toUpperCase()}</Avatar>
 }
 
-function ActionButtons({ data, onEdit, onDelete }) {
+function ActionButtons({ data, onEdit, onDelete, onView }) {
   return (
     <Space size={4} style={{ height: '100%', alignItems: 'center', display: 'flex' }}>
+      <Tooltip title="View">
+        <Button
+          type="text"
+          size="small"
+          icon={<EyeOutlined/>}
+          onClick={(e) => {e.stopPropagation(); onView(data)}}
+        />
+      </Tooltip>
+
       <Tooltip title="Edit">
         <Button
           type="text"
@@ -32,6 +42,7 @@ function ActionButtons({ data, onEdit, onDelete }) {
           onClick={(e) => { e.stopPropagation(); onEdit(data) }}
         />
       </Tooltip>
+
       <Tooltip title="Delete">
         <Button
           type="text"
@@ -44,12 +55,25 @@ function ActionButtons({ data, onEdit, onDelete }) {
     </Space>
   )
 }
+const cafeFields = [
+    { label: 'Logo',        key: 'logo', render: (value, data) => 
+      value 
+          ? <Avatar src={value} size={64} shape="square" />
+          : <Avatar icon={<ShopOutlined />} size={64} shape="square" style={{ background: '#c8956c' }} />
+    },
+    { label: 'Name',        key: 'name' },
+    { label: 'Description', key: 'description' },
+    { label: 'Location',    key: 'location' },
+    { label: 'Employees',   key: 'employees' },
+    { label: 'ID',          key: 'id' },
+]
 
-function CafesTable({ cafes, onEdit, onDelete }) {
+function CafesTable({ cafes, onEdit, onDelete, onView }) {
   const { token } = theme.useToken()
   const containerRef = useRef(null)
   const [pageSize, setPageSize] = useState(8)
   const [currentPage, setCurrentPage] = useState(1)
+  const [viewData, setViewData] = useState(null)
   const navigate = useNavigate()
 
   // Recalculate pageSize whenever the window resizes
@@ -92,7 +116,7 @@ function CafesTable({ cafes, onEdit, onDelete }) {
       headerName: 'Actions',
       width: 100,
       cellRenderer: (params) => (
-        <ActionButtons data={params.data} onEdit={onEdit} onDelete={onDelete} />
+        <ActionButtons data={params.data} onEdit={onEdit} onDelete={onDelete} onView={(data) => setViewData(data)} />
       )
     }
   ]
@@ -151,6 +175,13 @@ function CafesTable({ cafes, onEdit, onDelete }) {
           showQuickJumper
         />
       </div>
+      <ViewModal
+        open={!!viewData}
+        data={viewData}
+        fields={cafeFields}
+        title="Cafe Details"
+        onClose={() => setViewData(null)}
+      />
     </div>
   )
 }

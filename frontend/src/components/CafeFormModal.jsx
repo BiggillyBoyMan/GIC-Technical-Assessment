@@ -40,10 +40,21 @@ function CafeFormModal({open, initialData, onClose}){
     const handleSubmit = async () => {
         try {
             const values = await form.validateFields()
-            if (isEdit){ 
-                await updateCafe(initialData.id, values)
-            } else{
-                await createCafe(values)
+            const formData = new FormData()
+            formData.append('name', values.name)
+            formData.append('description', values.description)
+            formData.append('location', values.location)
+            if (values.logo instanceof File) {
+                formData.append('logo', values.logo)
+            } else if (values.logo?.originFileObj) {
+                formData.append('logo', values.logo.originFileObj)
+            } else if (typeof values.logo === 'string') {
+                formData.append('logo', values.logo)
+            }
+            if (isEdit) {
+                await updateCafe(initialData.id, formData)
+            } else {
+                await createCafe(formData)
             }
             queryClient.invalidateQueries({ queryKey: ['cafes'] })
             message.success(`Cafe ${isEdit ? 'updated' : 'created'} successfully`)

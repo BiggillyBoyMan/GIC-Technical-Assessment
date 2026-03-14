@@ -21,7 +21,7 @@ function EmployeeFormModal({open, initialData, onClose}) {
     //N2H
     const cafeOptions = cafes.map(cafe => ({
         value: cafe.id,
-        label: cafe.name
+        label: `${cafe.name} — ${cafe.location} — ${cafe.id.slice(-8)}`
     }))
 
     useEffect(() =>{

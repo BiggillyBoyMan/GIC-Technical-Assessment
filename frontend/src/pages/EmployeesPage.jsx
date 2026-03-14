@@ -42,6 +42,7 @@ function EmployeesPage() {
         navigate(`/employees/edit/${employee.employee_id}`)
     }
 
+
     const handleDelete = (id) => {
         Modal.confirm({
             title: 'Delete Employee',
@@ -86,6 +87,7 @@ function EmployeesPage() {
                     data = {employees}
                     onEdit = {handleEdit}
                     onDelete = {handleDelete}
+                    // onView = {handleView}
                 />
             </div>
             <EmployeeFormModal
