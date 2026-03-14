@@ -44,6 +44,7 @@ class EmployeeRepository {
                 e.name,
                 e.email_address,
                 e.phone_number,
+                e.gender,
                 COALESCE(
                     EXTRACT(DAYS FROM NOW() - ec.start_date)::int,
                     0

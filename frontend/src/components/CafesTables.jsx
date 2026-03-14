@@ -99,17 +99,6 @@ function CafesTable({ cafes, onEdit, onDelete }) {
           overflow: 'hidden',
           border: `1px solid ${token.colorBorder}`,
           borderBottom: 'none',
-          '--ag-header-background-color': token.colorBgLayout,
-          '--ag-header-foreground-color': token.colorText,
-          '--ag-background-color': token.colorBgContainer,
-          '--ag-odd-row-background-color': token.colorFillAlter,
-          '--ag-row-hover-color': token.colorFillSecondary,
-          '--ag-border-color': token.colorBorderSecondary,
-          '--ag-font-family': token.fontFamily,
-          '--ag-font-size': `${token.fontSize}px`,
-          '--ag-selected-row-background-color': token.colorPrimaryBg,
-          '--ag-range-selection-border-color': token.colorPrimary,
-          '--ag-header-column-separator-color': token.colorBorderSecondary,
         }}
       >
         <AgGridReact
