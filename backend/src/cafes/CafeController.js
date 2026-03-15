@@ -21,7 +21,7 @@ class CafeController {
             const { location } = req.query
             const query = new GetCafesQuery(location)
             const result = await this.mediator.send(query)
-            const BASE_URL = `http://localhost:${process.env.PORT}`
+            const BASE_URL = process.env.BASE_URL || `http://localhost:${process.env.PORT}`
             const withLogos = result.map(cafe => ({
                 ...cafe,
                 logo: cafe.logo ? `${BASE_URL}${cafe.logo}` : null
