@@ -30,7 +30,7 @@ function CafeFormModal({open, initialData, onClose}){
                 content: 'You have unsaved changes. Leave anyway?',
                 okText: 'Leave',
                 okType: 'danger',
-                onOk: () => { setIsDirty(false); onClose()}
+                onOk: () => { setIsDirty(false); form.resetFields(); onClose()}
             })
         } else {
             onClose()
