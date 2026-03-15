@@ -10,9 +10,10 @@ const errorHandler = require('./middleware/errorHandler')
 
 const app = express();
 
-app.use(cors({
-  origin: process.env.ALLOWED_ORIGIN || 'http://localhost:5173'
-}))
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'http://localhost:5173,http://localhost')
+  .split(',')
+
+app.use(cors({ origin: allowedOrigins }))
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
