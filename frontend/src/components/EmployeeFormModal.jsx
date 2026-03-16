@@ -82,7 +82,8 @@ function EmployeeFormModal({open, initialData, onClose}) {
                 <FormItem name="name" label="Name" rules={[
                     {required: true},
                     {min: 6, message: 'Min 6 Characters'},
-                    {max: 10, message: 'Max 10 Characters'}
+                    {max: 10, message: 'Max 10 Characters'},
+                    { pattern: /^[a-zA-Z\s]+$/, message: 'Name must only contain letters' }
                 ]}>
                     <ReusableTextbox placeholder={"Employee Name"}/>
                 </FormItem>
@@ -115,7 +116,7 @@ function EmployeeFormModal({open, initialData, onClose}) {
                     </Radio.Group>
                 </FormItem>
                 {/*Cafe Dropdown*/}
-                <FormItem name="cafe_id" label="Assigned Cafe">
+                <FormItem name="cafe_id" label="Assigned Cafe (· Cafe Name · Location · Last 8 digit UUID)">
                     <Select
                         options={cafeOptions}
                         placeholder="Select a cafe"

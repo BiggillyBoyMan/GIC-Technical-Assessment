@@ -8,6 +8,7 @@ import 'ag-grid-community/styles/ag-theme-alpine.css'
 import { useNavigate } from 'react-router-dom'
 import ViewModal from './ViewModal'
 
+
 ModuleRegistry.registerModules([AllCommunityModule])
 
 const ROW_HEIGHT = 48
@@ -66,6 +67,8 @@ const cafeFields = [
     { label: 'Location',    key: 'location' },
     { label: 'Employees',   key: 'employees' },
     { label: 'ID',          key: 'id' },
+    { label: 'Created at',  key: 'created_at' },
+    {label: 'Updated at',   key: 'updated_at'}
 ]
 
 function CafesTable({ cafes, onEdit, onDelete, onView }) {

@@ -2,9 +2,11 @@ import { useState, useEffect, useRef } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community'
 import { Avatar, Button, Space, Pagination, Tooltip, theme } from 'antd'
-import { EditOutlined, DeleteOutlined, ShopOutlined } from '@ant-design/icons'
+import { EditOutlined, DeleteOutlined, ShopOutlined, EyeOutlined } from '@ant-design/icons'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-alpine.css'
+import { useNavigate } from 'react-router-dom'
+import ViewModal from './ViewModal'
 
 ModuleRegistry.registerModules([AllCommunityModule])
 
@@ -15,9 +17,18 @@ const PAGINATION_HEIGHT = 56
 const CHROME_HEIGHT = 220
 
 
-function ActionButtons({ data, onEdit, onDelete }) {
+function ActionButtons({ data, onEdit, onDelete, onView }) {
   return (
     <Space size={4} style={{ height: '100%', alignItems: 'center', display: 'flex' }}>
+      <Tooltip title="Edit">
+        <Button
+            type="text"
+            size="small"
+            icon={<EyeOutlined/>}
+            onClick={(e) => { e.stopPropagation(); onView(data)}}
+        />
+      </Tooltip>
+
       <Tooltip title="Edit">
         <Button
           type="text"
@@ -26,6 +37,7 @@ function ActionButtons({ data, onEdit, onDelete }) {
           onClick={(e) => { e.stopPropagation(); onEdit(data) }}
         />
       </Tooltip>
+
       <Tooltip title="Delete">
         <Button
           type="text"
@@ -39,11 +51,27 @@ function ActionButtons({ data, onEdit, onDelete }) {
   )
 }
 
+const employeeFields = [
+    {label: 'Employee Id', key: 'employee_id'},
+    {label: 'Name', key: "name"},
+    {label: 'Email', key: 'email_address'},
+    {label: 'Phone Number', key: 'phone_number'},
+    {label: 'Gender', key: 'gender'},
+    {label: 'Days worked', key: 'days_worked'},
+    {label: 'Cafe', key: 'cafe'},
+    {label: 'Cafe Location', key: 'location'},
+    {label: 'Cafe Id', key: 'cafe_id'},
+    {label: 'Created at', key: 'created_at'},
+    {label: 'Updated_at', key: 'updated_at'}
+]
+
 function EmployeesTable({ data: employees, onEdit, onDelete }) {
     const { token } = theme.useToken()
     const containerRef = useRef(null)
     const [pageSize, setPageSize] = useState(8) // default 8
     const [currentPage, setCurrentPage] = useState(1) // default 1 
+    const navigate = useNavigate()
+    const [viewData, setViewData] = useState(null)
 
     useEffect(() => {
         const observer = new ResizeObserver(() => {
@@ -65,7 +93,7 @@ function EmployeesTable({ data: employees, onEdit, onDelete }) {
         {field: 'cafe', headerName:'Cafe Name', flex:1},
         {headerName: 'Actions', width: 100,
             cellRenderer: (params) => (
-                <ActionButtons data={params.data} onEdit={onEdit} onDelete={onDelete}/>
+                <ActionButtons data={params.data} onEdit={onEdit} onDelete={onDelete} onView={(data) => setViewData(data)}/>
             )
         }
     ]
@@ -123,6 +151,13 @@ function EmployeesTable({ data: employees, onEdit, onDelete }) {
                     showQuickJumper
                 />
             </div>
+            <ViewModal
+                open={!!viewData}
+                data={viewData}
+                fields={employeeFields}
+                title="Employee Details"
+                onClose={()=> setViewData(null)}
+            />
         </div>
     )
 }

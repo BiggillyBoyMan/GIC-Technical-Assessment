@@ -19,7 +19,9 @@ class CafeRepository {
                 c.description,
                 c.logo,
                 c.location,
-                COUNT(ec.employee_id) :: int AS employees
+                COUNT(ec.employee_id) :: int AS employees,
+                c.created_at,
+                c.updated_at
             FROM cafe c
             LEFT JOIN employee_cafe ec ON c.cafe_id = ec.cafe_id
             ${whereText}

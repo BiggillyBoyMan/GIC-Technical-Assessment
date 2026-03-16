@@ -18,8 +18,15 @@ function AppHeader() {
 
   return (
     <Header style={{ display: 'flex', alignItems: 'center' }}>
-      <div style={{ color: 'white', fontWeight: 'bold', marginRight: '24px' }}>
-        APP_LOGO
+      <div style={{ 
+          color: 'white', 
+          fontWeight: '700', 
+          marginRight: '24px',
+          fontSize: '20px',
+          letterSpacing: '0.5px',
+          fontFamily: 'Georgia, serif'
+      }}>
+          ☕ CafeManager
       </div>
       <Menu
         theme="dark"

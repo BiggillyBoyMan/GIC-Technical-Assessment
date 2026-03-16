@@ -49,7 +49,11 @@ class EmployeeRepository {
                     EXTRACT(DAYS FROM NOW() - ec.start_date)::int,
                     0
                 ) AS days_worked,
-                COALESCE(c.name, '') AS cafe    
+                COALESCE(c.name, '') AS cafe,
+                c.cafe_id,
+                c.location,
+                e.created_at,
+                e.updated_at   
             FROM employee e
             LEFT JOIN employee_cafe ec ON e.employee_id = ec.employee_id
             LEFT JOIN cafe c ON ec.cafe_id = c.cafe_id
