@@ -9,6 +9,7 @@ A full-stack web application for managing cafes and employees, built with React,
 **Prerequisites:** Docker and Docker Compose installed.
 
 ```bash
+cp .env.example .env
 docker-compose up --build
 ```
 
@@ -38,7 +39,7 @@ psql -U postgres -d cafe_manager -f backend/db/002_seed.sql
 
 ### 2. Backend
 
-Create `backend/.env`:
+Create `backend/.env` (copy from `backend/.env.example` and fill in your password):
 
 ```env
 PORT=3000
@@ -47,6 +48,7 @@ DB_PORT=5432
 DB_USER=postgres
 DB_PASSWORD=your_password
 DB_NAME=cafe_manager
+ALLOWED_ORIGIN=http://localhost:5173
 ```
 
 ```bash
