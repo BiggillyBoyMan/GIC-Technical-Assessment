@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS employee (
   employee_id VARCHAR(9) PRIMARY KEY,
   name VARCHAR NOT NULL,
   email_address VARCHAR NOT NULL UNIQUE,
-  phone_number VARCHAR(9) NOT NULL,
+  phone_number VARCHAR(9) NOT NULL UNIQUE,
   gender VARCHAR(6) NOT NULL CHECK (gender IN ('Male', 'Female')),
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW()

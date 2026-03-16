@@ -20,7 +20,7 @@ const CHROME_HEIGHT = 220
 function ActionButtons({ data, onEdit, onDelete, onView }) {
   return (
     <Space size={4} style={{ height: '100%', alignItems: 'center', display: 'flex' }}>
-      <Tooltip title="Edit">
+      <Tooltip title="View">
         <Button
             type="text"
             size="small"

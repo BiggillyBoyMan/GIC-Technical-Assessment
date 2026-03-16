@@ -61,8 +61,10 @@ function EmployeeFormModal({open, initialData, onClose}) {
             message.success(`cafe ${isEdit ? 'updated' : 'created'} successfully`)
             setIsDirty(false)
             onClose()
-        } catch{
-
+        } catch (err) {
+            if (err.response?.status === 500) {
+            message.error('Email or phone number already exists')
+    }
         }
     }
 
