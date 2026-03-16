@@ -16,7 +16,16 @@ const storage = multer.diskStorage({
     }
 })
 
-const upload = multer({ storage, limits: { fileSize: 2 * 1024 * 1024}})
+const fileFilter = (_req, file, cb) => {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/bmp']
+    if (allowedTypes.includes(file.mimetype)) {
+        cb(null, true)
+    } else {
+        cb(new Error('Only image files are allowed (jpeg, png, gif, webp, bmp)'), false)
+    }
+}
+
+const upload = multer({ storage, limits: { fileSize: 2 * 1024 * 1024 }, fileFilter })
 
 router.get('/', cafeController.getAll)
 

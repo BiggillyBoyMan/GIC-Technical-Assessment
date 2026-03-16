@@ -64,7 +64,7 @@ function EmployeeFormModal({open, initialData, onClose}) {
         } catch (err) {
             if (err.response?.status === 500) {
             message.error('Email or phone number already exists')
-    }
+            }
         }
     }
 

@@ -44,12 +44,15 @@ function CafeFormModal({open, initialData, onClose}){
             formData.append('name', values.name)
             formData.append('description', values.description)
             formData.append('location', values.location)
-            if (values.logo instanceof File) {
-                formData.append('logo', values.logo)
-            } else if (values.logo?.originFileObj) {
-                formData.append('logo', values.logo.originFileObj)
-            } else if (typeof values.logo === 'string') {
-                formData.append('logo', values.logo)
+            const logo = values.logo
+            if (logo && logo.status !== 'removed') {
+                if (logo instanceof File) {
+                    formData.append('logo', logo)
+                } else if (logo.originFileObj) {
+                    formData.append('logo', logo.originFileObj)
+                } else if (typeof logo === 'string') {
+                    formData.append('logo', logo)
+                }
             }
             if (isEdit) {
                 await updateCafe(initialData.id, formData)
@@ -61,7 +64,10 @@ function CafeFormModal({open, initialData, onClose}){
             setIsDirty(false)
             onClose()
 
-        } catch {
+        } catch (err){
+            if (err.response?.status === 500) {
+            message.error('Please upload your logo in jpeg, png, gif, webp and bmp format')
+            }
             //validation errors (placeholder)
         }
     }
@@ -96,6 +102,11 @@ function CafeFormModal({open, initialData, onClose}){
                 <Form.Item name="logo" label="Logo" valuePropName="file" getValueFromEvent={e => e?.file}>
                     <Upload
                         beforeUpload={(file) => {
+                        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/bmp']
+                        if (!allowedTypes.includes(file.type)) {
+                            message.error('Only image files are allowed (jpeg, png, gif, webp, bmp)')
+                            return Upload.LIST_IGNORE
+                        }
                         if (file.size > 2 * 1024 * 1024) {
                             message.error('Logo must be under 2MB')
                             return Upload.LIST_IGNORE
